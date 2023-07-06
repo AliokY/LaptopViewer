@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:domain="clr-namespace:LaptopViewer.Domain;assembly=LaptopViewer.Domain"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:viewModels="clr-namespace:LaptopViewer.Wpf.ViewModels"
         Title="MainWindow" 
         Height="450" 
@@ -62,6 +63,15 @@
                         Margin="10"
                         Grid.Row="1"
                         HorizontalAlignment="Right">
+
+                <fa:ImageAwesome Icon="Spinner"
+                                 Foreground="Coral"
+                                 MaxHeight="30"
+                                 MinWidth="50"
+                                 Margin="5"
+                                 Spin="{Binding IsLoading}" 
+                                 SpinDuration="4"
+                                 Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <Button Content="Previous"
                         Command="{Binding LoadDataCommand}"
                         CommandParameter="PREV"

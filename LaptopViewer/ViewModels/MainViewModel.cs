@@ -45,6 +45,17 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            RaisePropertyChanged();
+        }
+    }
+
     #endregion
 
 
@@ -53,6 +64,8 @@ public class MainViewModel : ViewModelBase
     private async void OnLoadDataAsync(object? direction)
     {
         int page = GetPage(direction);
+
+        IsLoading = true;
 
         _ = Application.Current.Dispatcher.BeginInvoke(() => { Laptops.Clear(); });
 
@@ -70,6 +83,8 @@ public class MainViewModel : ViewModelBase
                 Laptops.Add(item);
             });
         }
+
+        IsLoading = false;
     }
 
     private int GetPage(object? direction)
