@@ -1,5 +1,4 @@
 ﻿using LaptopViewer.Wpf.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace LaptopViewer.Wpf.Views;
@@ -9,13 +8,10 @@ namespace LaptopViewer.Wpf.Views;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainViewModel mainViewModel)
     {
         InitializeComponent();
 
-        // Get a local instance of the container
-        var container = ((App)Application.Current).Container;
-
-        DataContext = ActivatorUtilities.GetServiceOrCreateInstance(container, typeof(MainViewModel));
+        DataContext = mainViewModel;
     }
 }

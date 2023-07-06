@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:domain="clr-namespace:LaptopViewer.Domain;assembly=LaptopViewer.Domain"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:viewModels="clr-namespace:LaptopViewer.Wpf.ViewModels"
         Title="MainWindow" 
         Height="450" 
@@ -12,6 +13,13 @@
         d:DesignWidth="1000"
         d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
         mc:Ignorable="d">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -54,18 +62,18 @@
                         Margin="10"
                         Grid.Row="1"
                         HorizontalAlignment="Right">
-                <Button Content="Load"
-                        Background="LightGreen"
-                        Command="{Binding LoadDataCommand}"
-                        MinHeight="30"
-                        MinWidth="100"
-                        Margin="0 0 5 0"/>
                 <Button Content="Previous"
-                        Command="{Binding LoadPreviousPageDataCommand}"
+                        Command="{Binding LoadDataCommand}"
+                        CommandParameter="PREV"
                         MinHeight="30"
                         MinWidth="100"/>
+
+                <TextBlock Text="{Binding CurrentPage, StringFormat='Page: {0}'}"
+                           Margin="5"/>
+
                 <Button Content="Next"
-                        Command="{Binding LoadNextPageDataCommand}"
+                        Command="{Binding LoadDataCommand}"
+                        CommandParameter="NEXT"
                         MinHeight="30"
                         MinWidth="100"/>
                 

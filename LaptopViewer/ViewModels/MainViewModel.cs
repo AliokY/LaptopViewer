@@ -12,6 +12,7 @@ public class MainViewModel : ViewModelBase
     #region Fields
 
     private readonly IOnlinerScrapper _onlinerScrapper;
+    private int _currentPage = 1;
 
     #endregion
 
@@ -34,17 +35,28 @@ public class MainViewModel : ViewModelBase
 
     public string Title { get; set; } = "My test app";
 
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set
+        {
+            _currentPage = value;
+            RaisePropertyChanged();
+        }
+    }
+
     #endregion
 
 
     #region Methods
 
-
-    private async void OnLoadDataAsync(object? obj)
+    private async void OnLoadDataAsync(object? direction)
     {
+        int page = GetPage(direction);
+
         _ = Application.Current.Dispatcher.BeginInvoke(() => { Laptops.Clear(); });
 
-        var laptops = await _onlinerScrapper.LoadLaptopsAsync().ConfigureAwait(false);
+        var laptops = await _onlinerScrapper.LoadLaptopsAsync(page).ConfigureAwait(false);
 
         if (laptops is null)
         {
@@ -58,6 +70,19 @@ public class MainViewModel : ViewModelBase
                 Laptops.Add(item);
             });
         }
+    }
+
+    private int GetPage(object? direction)
+    {
+        if (direction as string is null)
+            return CurrentPage;
+
+        if (((string)direction).ToUpper().Equals("NEXT"))
+            return ++CurrentPage;
+        else if (CurrentPage != 1)
+            return --CurrentPage;
+        else 
+            return CurrentPage;
     }
 
     #endregion
