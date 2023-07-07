@@ -1,5 +1,8 @@
 ﻿namespace LaptopViewer.Domain;
 
+/// <summary>
+/// Represents a response containing image information
+/// </summary>
 public class ImageResponse
 {
     public ImageResponse(string header, object icon)

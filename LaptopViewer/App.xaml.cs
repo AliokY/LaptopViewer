@@ -26,8 +26,15 @@ public partial class App : Application
         MainWindow?.Show();
     }
 
+    /// <summary>
+    /// Gets or sets the container for dependency injection
+    /// </summary>
     public IServiceProvider Container { get; private set; }
 
+    /// <summary>
+    /// Creates and configures the service provider for dependency injection
+    /// </summary>
+    /// <returns>The configured service provider.</returns>
     private IServiceProvider RegisterServices()
     {
         // Create a new service collection which generates the IServiceProvider

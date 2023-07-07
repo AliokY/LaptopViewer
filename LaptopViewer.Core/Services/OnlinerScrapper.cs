@@ -4,10 +4,14 @@ using LaptopViewer.Domain;
 
 namespace LaptopViewer.Core.Services;
 
+/// <summary>
+/// Service for scraping laptop data from Onliner website
+/// </summary>
 public class OnlinerScrapper : DataServiceBase, IOnlinerScrapper
 {
     private const string LaptopsUri = @"https://catalog.onliner.by/sdapi/catalog.api/search/notebook?page={0}";
 
+    /// <inheritdoc />
     public async Task<OnlinerResponse?> LoadLaptopsAsync(int page = 1)
     {
         ApiResponse<OnlinerResponse> response = await GetAsync<OnlinerResponse>(new Uri(string.Format(LaptopsUri, page)), CancellationToken.None);
@@ -18,7 +22,6 @@ public class OnlinerScrapper : DataServiceBase, IOnlinerScrapper
         }
         else
         {
-            // throw exception?
             return null;
         }
     }

@@ -2,6 +2,9 @@
 
 namespace LaptopViewer.Domain;
 
+/// <summary>
+/// Gets or sets the minimum price of the product
+/// </summary>
 public class ProductPriceResponse
 {
     [JsonProperty("price_min")]

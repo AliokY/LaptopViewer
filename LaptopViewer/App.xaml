@@ -1,8 +1,9 @@
 ﻿<Application x:Class="LaptopViewer.Wpf.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:converters="clr-namespace:LaptopViewer.Core.Converters;assembly=LaptopViewer.Core"
              Startup="Application_Startup">
     <Application.Resources>
-         
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Application.Resources>
 </Application>

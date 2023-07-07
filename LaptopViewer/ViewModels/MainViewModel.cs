@@ -56,11 +56,25 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    #endregion
+    private bool _hasDataLoaded = true;
+    public bool HasDataLoaded
+    {
+        get => _hasDataLoaded;
+        set 
+        {
+            _hasDataLoaded = value;
+            RaisePropertyChanged();
+        }
+    }
 
+    #endregion
 
     #region Methods
 
+    /// <summary>
+    /// Asynchronously loads data based on the specified direction
+    /// </summary>
+    /// <param name="direction">The direction of data loading (NEXT or PREV)</param>
     private async void OnLoadDataAsync(object? direction)
     {
         int page = GetPage(direction);
@@ -73,6 +87,8 @@ public class MainViewModel : ViewModelBase
 
         if (laptops is null)
         {
+            HasDataLoaded = false;
+            IsLoading = false;
             return;
         }
     
@@ -87,6 +103,11 @@ public class MainViewModel : ViewModelBase
         IsLoading = false;
     }
 
+    /// <summary>
+    /// Gets the page number based on the specified direction
+    /// </summary>
+    /// <param name="direction">The direction of data loading (NEXT or PREV)</param>
+    /// <returns>The page number</returns>
     private int GetPage(object? direction)
     {
         if (direction as string is null)

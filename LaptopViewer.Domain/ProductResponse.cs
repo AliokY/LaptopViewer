@@ -2,6 +2,9 @@
 
 namespace LaptopViewer.Domain;
 
+/// <summary>
+/// Initializes a new instance of the ProductResponse class
+/// </summary>
 public class ProductResponse
 {
     public ProductResponse()

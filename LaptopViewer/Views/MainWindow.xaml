@@ -28,11 +28,10 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-           
-
             <ListView ItemsSource="{Binding Laptops}"
                       Margin="10"
-                      Grid.Row="0">
+                      Grid.Row="0"
+                      Visibility="{Binding HasDataLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="domain:ProductResponse">
                         <Grid Margin="3">
@@ -59,6 +58,14 @@
                 </ListView.ItemTemplate>
             </ListView>
 
+            <TextBlock Text="No data found"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Visibility="{Binding HasDataLoaded, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=REVERSE}">
+            </TextBlock>
+
             <StackPanel Orientation="Horizontal"
                         Margin="10"
                         Grid.Row="1"
@@ -71,7 +78,7 @@
                                  Margin="5"
                                  Spin="{Binding IsLoading}" 
                                  SpinDuration="4"
-                                 Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                 Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Button Content="Previous"
                         Command="{Binding LoadDataCommand}"
                         CommandParameter="PREV"

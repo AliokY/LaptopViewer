@@ -1,5 +1,8 @@
 ﻿namespace LaptopViewer.Domain;
 
+/// <summary>
+/// Initializes a new instance of the OnlinerResponse class with an empty list of products
+/// </summary>
 public class OnlinerResponse
 {
     public OnlinerResponse()
