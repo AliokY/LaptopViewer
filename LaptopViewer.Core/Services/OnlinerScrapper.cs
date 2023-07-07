@@ -5,7 +5,7 @@ using LaptopViewer.Domain;
 namespace LaptopViewer.Core.Services;
 
 /// <summary>
-/// Service for scraping laptop data from Onliner website
+/// Service for scraping laptop data from onliner API
 /// </summary>
 public class OnlinerScrapper : DataServiceBase, IOnlinerScrapper
 {
