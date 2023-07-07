@@ -7,7 +7,7 @@ namespace LaptopViewer.Core.Services;
 public abstract class DataServiceBase
 {
     /// <summary>
-    /// Sends an HTTP GET request to the specified URI and retrieves the response content
+    /// Sends an HTTP GET request to the specified URI and retrieves the response content of <typeparamref name="T"/> type
     /// </summary>
     /// <typeparam name="T">The type of the response content</typeparam>
     /// <param name="uri">The URI to send the request to</param>
@@ -19,7 +19,7 @@ public abstract class DataServiceBase
 
         try
         {
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync(uri, cancellationToken);
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync(cancellationToken);

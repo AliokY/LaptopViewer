@@ -2,6 +2,7 @@
 using LaptopViewer.Core.Services.Contracts;
 using LaptopViewer.Domain;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -13,6 +14,8 @@ public class MainViewModel : ViewModelBase
 
     private readonly IOnlinerScrapper _onlinerScrapper;
     private int _currentPage = 1;
+    private bool _isLoading;
+    private bool _hasDataLoaded;
 
     #endregion
 
@@ -45,7 +48,6 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private bool _isLoading;
     public bool IsLoading
     {
         get => _isLoading;
@@ -56,7 +58,6 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private bool _hasDataLoaded = true;
     public bool HasDataLoaded
     {
         get => _hasDataLoaded;
@@ -77,30 +78,34 @@ public class MainViewModel : ViewModelBase
     /// <param name="direction">The direction of data loading (NEXT or PREV)</param>
     private async void OnLoadDataAsync(object? direction)
     {
-        int page = GetPage(direction);
-
         IsLoading = true;
 
-        _ = Application.Current.Dispatcher.BeginInvoke(() => { Laptops.Clear(); });
-
-        var laptops = await _onlinerScrapper.LoadLaptopsAsync(page).ConfigureAwait(false);
-
-        if (laptops is null)
+        try
         {
-            HasDataLoaded = false;
-            IsLoading = false;
-            return;
-        }
-    
-        foreach( var item in laptops.Products)
-        {
-            _ = Application.Current.Dispatcher.BeginInvoke(() =>
+            int page = GetPage(direction);
+
+            _ = Application.Current.Dispatcher.BeginInvoke(() => { Laptops.Clear(); });
+
+            OnlinerResponse? laptops = await _onlinerScrapper.LoadLaptopsAsync(page).ConfigureAwait(false);
+            HasDataLoaded = laptops != null && laptops.Products.Any();
+
+            if (!HasDataLoaded)
             {
-                Laptops.Add(item);
-            });
-        }
+                return;
+            }
 
-        IsLoading = false;
+            foreach (var item in laptops.Products)
+            {
+                _ = Application.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    Laptops.Add(item);
+                });
+            }
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     /// <summary>
